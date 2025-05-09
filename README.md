@@ -1,2 +1,2 @@
-# PlaneShooter
-A simple 2D shooting game using Unity.
+# CB3D
+A simple 3D game using Unity.
