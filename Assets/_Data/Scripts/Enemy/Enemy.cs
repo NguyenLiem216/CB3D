@@ -7,19 +7,38 @@ public abstract class Enemy : MonoBehaviour
     int currentHP = 100;
     int maxHP = 100;
     float weight = 2.5f;
-    bool isDead = true;
+    bool isDead = false;
     bool isBoss = true;
 
-    EnemyHead head = new EnemyHead();
-    EnemyHeart heart = new EnemyHeart();
+    
+
+    public abstract string GetName();
+
+    
+
+    public virtual bool IsDead()
+    {
+        if (this.currentHP > 0) this.isDead = false;
+        else this.isDead = true;
 
 
-    protected abstract string GetName();
+        return this.isDead;
+    }
 
-    int GetCurrentHP()
+    public virtual int GetCurrentHP()
     {
         return this.currentHP;
     }
+
+    public virtual int GetMaxHP()
+    {
+        return this.maxHP;
+    }
+    public virtual void SetHP(int newHP)
+    {
+        this.currentHP = newHP;
+    }
+
 
     float GetWeight()
     {
