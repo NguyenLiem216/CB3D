@@ -24,6 +24,5 @@ public class Point : LiemMonoBehaviour
             this.nextPoint = nextSibling.GetComponent<Point>();
         }
         Debug.Log(transform.name + ": LoadNextPoint", gameObject);
-
     }
 }

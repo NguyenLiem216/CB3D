@@ -83,7 +83,7 @@ public class EnemyMoving : LiemMonoBehaviour
     {
         if (this.enemyPath != null) return;
         this.enemyPath = PathsManager.Instance.GetPath(this.pathName);
-        Debug.LogWarning(transform.name+ ": LoadEnemyPath",gameObject);
+        //Debug.LogWarning(transform.name+ ": LoadEnemyPath",gameObject);
     }
 
     protected virtual void CheckMoving()

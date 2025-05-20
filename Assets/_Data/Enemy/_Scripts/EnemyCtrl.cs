@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,12 +11,16 @@ public class EnemyCtrl : LiemMonoBehaviour
     public Animator Animator => animator;
     [SerializeField] protected NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
+    [SerializeField] protected TowerTargetable towerTargetable;
+    public TowerTargetable TowerTargetable => towerTargetable;
+
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadNavMeshAgent();
         this.LoadModel();
+        this.LoadTowerTargetable();
         this.LoadAnimator();
     }
 
@@ -35,6 +40,13 @@ public class EnemyCtrl : LiemMonoBehaviour
         this.model = transform.Find("Model");
         this.model.localPosition = new Vector3(0f, 0f, 0f);
         Debug.LogWarning(transform.name + ": LoadModel", gameObject);
+    }
+    protected virtual void LoadTowerTargetable()
+    {
+        if (this.towerTargetable != null) return;
+        this.towerTargetable = transform.GetComponentInChildren<TowerTargetable>();
+        this.towerTargetable.transform.localPosition = new Vector3(0, 0.4f, 0);
+        Debug.LogWarning(transform.name + ": LoadTowerTargetable", gameObject);
     }
 
     protected virtual void LoadAnimator()
