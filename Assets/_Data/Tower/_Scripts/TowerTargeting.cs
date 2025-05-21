@@ -11,6 +11,7 @@ public class TowerTargeting : LiemMonoBehaviour
     [SerializeField] protected SphereCollider sphereCollider;
     [SerializeField] protected new Rigidbody rigidbody;
     [SerializeField] protected EnemyCtrl nearest;
+    public EnemyCtrl Nearest => nearest;
     [SerializeField] protected List<EnemyCtrl> enemies = new();
 
     protected virtual void FixedUpdate()
