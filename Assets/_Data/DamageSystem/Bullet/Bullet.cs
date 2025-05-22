@@ -1,8 +1,14 @@
+using System;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : PoolObj
 {
     [SerializeField] protected float speed = 10f;
+
+    public override string GetName()
+    {
+        return "Bullet";
+    }
 
     void Update()
     {
