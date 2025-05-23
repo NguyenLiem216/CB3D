@@ -14,7 +14,7 @@ public class EnemyMoving : LiemMonoBehaviour
     [SerializeField] protected Point currentPoint;
     [SerializeField] protected float pointDistance = Mathf.Infinity;
     [SerializeField] protected float stopDistance = 1f;
-    [SerializeField] protected bool canMove = false;
+    [SerializeField] protected bool canMove = true;
     [SerializeField] protected bool isMoving = false;
     [SerializeField] protected bool isFinish = false;
 

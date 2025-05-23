@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class BulletDamageSender : DamageSender
 {
+    [SerializeField] protected BulletCtrl bulletCtrl;
+    public BulletCtrl BulletCtrl => bulletCtrl;
     [SerializeField] protected SphereCollider sphereCollider;
 
 
@@ -11,6 +13,7 @@ public class BulletDamageSender : DamageSender
     {
         base.LoadComponents();
         this.LoadSphereCollider();
+        this.LoadBulletCtrl();
     }
 
     protected virtual void LoadSphereCollider()
@@ -21,5 +24,16 @@ public class BulletDamageSender : DamageSender
         this.sphereCollider.isTrigger = true;
         Debug.LogWarning(transform.name + ": LoadSphereCollider", gameObject);
     }
+    protected virtual void LoadBulletCtrl()
+    {
+        if (this.bulletCtrl != null) return;
+        this.bulletCtrl = transform.parent.GetComponent<BulletCtrl>();
+        Debug.LogWarning(transform.name + ": LoadBulletCtrl", gameObject);
+    }
 
+    protected override void Send(DamageReceiver damageReceiver)
+    {
+        base.Send(damageReceiver);
+        this.bulletCtrl.Bullet.DespawnBase.DoDespawn();
+    }
 }

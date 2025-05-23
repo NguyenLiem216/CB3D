@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class DespawnBase : LiemMonoBehaviour
 {
-    
+    public abstract void DoDespawn();
 }

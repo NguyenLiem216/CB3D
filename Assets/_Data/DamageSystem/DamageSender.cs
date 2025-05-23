@@ -22,10 +22,6 @@ public abstract class DamageSender : LiemMonoBehaviour
         base.LoadComponents();
         this.LoadRigidbody();
     }
-    protected virtual void Send(DamageReceiver damageReceiver)
-    {
-        damageReceiver.Deduct(this.damage);
-    }
 
     protected virtual void LoadRigidbody()
     {
@@ -33,5 +29,10 @@ public abstract class DamageSender : LiemMonoBehaviour
         this.rigidbody = GetComponent<Rigidbody>();
         this.rigidbody.useGravity = false;
         Debug.LogWarning(transform.name + ": LoadRigidbody", gameObject);
+    }
+
+    protected virtual void Send(DamageReceiver damageReceiver)
+    {
+        damageReceiver.Deduct(this.damage);
     }
 }

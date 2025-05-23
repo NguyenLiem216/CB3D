@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyCtrl : LiemMonoBehaviour
+public abstract class EnemyCtrl : PoolObj
 {
     [SerializeField] protected Transform model;
     [SerializeField] protected Animator animator;
