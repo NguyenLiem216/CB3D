@@ -11,8 +11,11 @@ public class TowerCtrl : LiemMonoBehaviour
     public TowerTargeting TowerTargeting => towerTargeting;
     [SerializeField] protected BulletSpawner bulletSpawner;
     public BulletSpawner BulletSpawner => bulletSpawner;
+    protected string bulletName = "Bullet";
     [SerializeField] protected Bullet bullet;
     public Bullet Bullet => bullet;
+    [SerializeField] protected BulletPrefabs bulletPrefabs;
+    public BulletPrefabs BulletPrefabs => bulletPrefabs;
 
     [SerializeField] protected List<FirePoint> firePoints = new();
     public List<FirePoint> FirePoints => firePoints;
@@ -29,8 +32,8 @@ public class TowerCtrl : LiemMonoBehaviour
         this.LoadModel();
         this.LoadTowerTargeting();
         this.LoadBulletSpawner();
-        this.LoadBullet();
         this.LoadFirePoints();
+        this.LoadBulletPrefabs();
     }
 
     protected virtual void LoadModel()
@@ -56,8 +59,16 @@ public class TowerCtrl : LiemMonoBehaviour
     protected virtual void LoadBullet()
     {
         if (this.bullet != null) return;
-        this.bullet = transform.GetComponentInChildren<Bullet>();
+        this.bullet = this.bulletPrefabs.GetByName(this.bulletName);
         Debug.LogWarning(transform.name + ": LoadBullet", gameObject);
+    }
+    protected virtual void LoadBulletPrefabs()
+    {
+        if (this.bulletPrefabs != null) return;
+        this.bulletPrefabs = GameObject.FindAnyObjectByType<BulletPrefabs>();
+        Debug.LogWarning(transform.name + ": LoadBulletPrefabs", gameObject);
+        this.LoadBullet();
+
     }
     protected virtual void LoadFirePoints()
     {

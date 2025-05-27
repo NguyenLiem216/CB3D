@@ -103,5 +103,6 @@ public class EnemyMoving : LiemMonoBehaviour
     protected virtual void OnReborn()
     {
         this.isFinish = false;
+        this.currentPoint = null;
     }
 }

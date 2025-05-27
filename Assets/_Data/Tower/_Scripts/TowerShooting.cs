@@ -35,10 +35,6 @@ public class TowerShooting : TowerAbstract
             0f
         );
         this.towerCtrl.Rotator.rotation = Quaternion.LookRotation(newDirection);
-
-
-
-        //this.towerCtrl.Rotator.LookAt(this.target.TowerTargetable.transform.position);
     }
 
     protected virtual void TargetLoading()
