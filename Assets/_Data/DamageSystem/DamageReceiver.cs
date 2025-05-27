@@ -9,6 +9,12 @@ public abstract class DamageReceiver : LiemMonoBehaviour
     protected bool isDead = false;
     [SerializeField] protected bool isImmotal = false;
 
+    protected virtual void OnEnable()
+    {
+        this.OnReborn();
+    }
+
+
     public virtual int Deduct(int hp)
     {
         if (!this.isImmotal) this.currentHP -= hp;
@@ -19,7 +25,7 @@ public abstract class DamageReceiver : LiemMonoBehaviour
         return currentHP;
     }
 
-    protected virtual bool IsDead()
+    public virtual bool IsDead()
     {
         return this.isDead = this.currentHP <= 0;
     }
@@ -31,5 +37,10 @@ public abstract class DamageReceiver : LiemMonoBehaviour
     protected virtual void OnHurt()
     {
         //For override
+    }
+
+    protected virtual void OnReborn()
+    {
+        this.currentHP = this.maxHP;
     }
 }

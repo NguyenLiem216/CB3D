@@ -17,6 +17,7 @@ public class TowerTargeting : LiemMonoBehaviour
     protected virtual void FixedUpdate()
     {
         this.FindNearest();
+        this.RemoveDeadEnemy();
     }
 
     protected virtual void OnTriggerEnter(Collider collider)
@@ -58,8 +59,8 @@ public class TowerTargeting : LiemMonoBehaviour
     {
         if (collider.name != Const.TOWER_TARGETABLE) return;
         EnemyCtrl enemyCtrl = collider.transform.parent.GetComponent<EnemyCtrl>();
+        if (enemyCtrl.EnemyDamageReceiver.IsDead()) return;
         this.enemies.Add(enemyCtrl);
-        //Debug.Log("AddEnemy: " + collider.name);
     }
 
     protected virtual void RemoveEnemy(Collider collider)
@@ -84,6 +85,18 @@ public class TowerTargeting : LiemMonoBehaviour
             {
                 nearestDistance = enemyDistance;
                 this.nearest = enemyCtrl;
+            }
+        }
+    }
+    protected virtual void RemoveDeadEnemy()
+    {
+        foreach (EnemyCtrl enemyCtrl in this.enemies)
+        {
+            if (enemyCtrl.EnemyDamageReceiver.IsDead())
+            {
+                if (enemyCtrl == this.nearest) this.nearest = null;
+                this.enemies.Remove(enemyCtrl);
+                return;
             }
         }
     }

@@ -5,14 +5,24 @@ using UnityEngine;
 public abstract class Spawner<T> : LiemMonoBehaviour where T : PoolObj
 {
     [SerializeField] protected int spawnCount = 0;
-    [SerializeField] protected List<T> inPoolObjs;
+    [SerializeField] protected PoolHolder poolHolder;
+    [SerializeField] protected List<T> inPoolObjs = new();
 
-    public virtual Transform Spawn(Transform prefab)
+
+    protected override void LoadComponents()
     {
-        Transform newObject = Instantiate(prefab);
-        return newObject;
+        base.LoadComponents();
+        this.LoadPoolHolder();
     }
 
+    protected virtual void LoadPoolHolder()
+    {
+        if (this.poolHolder != null) return;
+        this.poolHolder = transform.GetComponentInChildren<PoolHolder>();
+        Debug.LogWarning(transform.name + ": LoadPoolHolder",gameObject);
+    }
+
+   
     public virtual T Spawn(T prefab)
     {
         T newObj = this.GetObjectFromPool(prefab);
@@ -22,6 +32,10 @@ public abstract class Spawner<T> : LiemMonoBehaviour where T : PoolObj
             this.spawnCount++;
             this.UpdateName(prefab.transform, newObj.transform);
         }
+        
+        if(this.poolHolder != null) newObj.transform.parent = this.poolHolder.transform;
+
+
         return newObj;
     }
 
@@ -59,9 +73,9 @@ public abstract class Spawner<T> : LiemMonoBehaviour where T : PoolObj
 
     protected virtual T GetObjectFromPool(T prefab)
     {
-        foreach(T inPoolObj in this.inPoolObjs)
+        foreach (T inPoolObj in this.inPoolObjs)
         {
-            if(prefab.GetName() == inPoolObj.GetName())
+            if (prefab.GetName() == inPoolObj.GetName())
             {
                 this.RemoveObjFromPool(inPoolObj);
                 return inPoolObj;

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,7 +11,7 @@ public class EnemyMoving : LiemMonoBehaviour
 
     public GameObject target;
     [SerializeField] protected EnemyCtrl enemyCtrl;
-    [SerializeField] protected string pathName = "Path_1";
+    [SerializeField] protected string pathName = "Path_0";
     [SerializeField] protected Path enemyPath;
     [SerializeField] protected Point currentPoint;
     [SerializeField] protected float pointDistance = Mathf.Infinity;
@@ -17,6 +19,12 @@ public class EnemyMoving : LiemMonoBehaviour
     [SerializeField] protected bool canMove = true;
     [SerializeField] protected bool isMoving = false;
     [SerializeField] protected bool isFinish = false;
+
+
+    protected virtual void OnEnable()
+    {
+        this.OnReborn();
+    }
 
     protected override void Start()
     {        
@@ -32,7 +40,6 @@ public class EnemyMoving : LiemMonoBehaviour
     {
         base.LoadComponents();
         this.LoadEnemyCtrl();
-        //this.LoadTarget();
     }
 
     protected virtual void LoadEnemyCtrl()
@@ -41,17 +48,17 @@ public class EnemyMoving : LiemMonoBehaviour
         this.enemyCtrl = transform.parent.GetComponent<EnemyCtrl>();
         Debug.LogWarning(transform.name + ": LoadEnemyCtrl", gameObject);
     }
-    protected virtual void LoadTarget()
-    {
-        if (this.target != null) return;
-        this.target = GameObject.Find("TargetMoving");
-        Debug.LogWarning(transform.name + ": LoadTarget", gameObject);
-    }
-
+   
     protected virtual void Moving()
     {
         if (!this.canMove)
         { 
+            this.enemyCtrl.Agent.isStopped = true;
+            return;
+        }
+
+        if (this.enemyCtrl.EnemyDamageReceiver.IsDead())
+        {
             this.enemyCtrl.Agent.isStopped = true;
             return;
         }
@@ -82,8 +89,7 @@ public class EnemyMoving : LiemMonoBehaviour
     protected virtual void LoadEnemyPath()
     {
         if (this.enemyPath != null) return;
-        this.enemyPath = PathsManager.Instance.GetPath(this.pathName);
-        //Debug.LogWarning(transform.name+ ": LoadEnemyPath",gameObject);
+        this.enemyPath = PathsManager.Instance.GetPath(this.pathName);        
     }
 
     protected virtual void CheckMoving()
@@ -92,5 +98,10 @@ public class EnemyMoving : LiemMonoBehaviour
         else this.isMoving = false;
 
         this.enemyCtrl.Animator.SetBool("isMoving", this.isMoving);
+    }
+
+    protected virtual void OnReborn()
+    {
+        this.isFinish = false;
     }
 }
